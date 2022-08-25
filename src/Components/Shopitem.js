@@ -1,19 +1,51 @@
 import React from "react";
+// import { useStateValue } from "../StateProvider";
 
-const Shopitem = (props) => {
-  let { title, imageUrl, price } = props;
+const Shopitem = ({ item, addToCart }) => {
+  // let { title, imageUrl, price } = props;
+  const { name, imageURL, price, quantity } = item;
+
+  // const [{ basket }, dispatch] = useStateValue();
+
+  // const addToBasket = () => {
+  //   // dispatch the item into the data layer
+  //   if (quantity > 0) {
+  //     dispatch({
+  //       type: "ADD_TO_BASKET",
+  //       item: {
+  //         id: id,
+  //         title: name,
+  //         image: imageURL,
+  //         price: price,
+  //         qty: quantity,
+  //       },
+  //     });
+  //   } else {
+  //     alert("Out of stock");
+  //   }
+  // };
+
   return (
     <>
       <div className="grid">
         <div className="card mx-3 my-3">
-          <img src={imageUrl} className="card-img-top" alt="..." />
+          <img src={imageURL} className="card-img-top" alt="..." />
 
           <div className="card-body">
-            <h5 className="card-title">{title}</h5>
+            <h5 className="card-title">{name}</h5>
             <p className="card-text">Rs. {price}</p>
-            <a href="/" className="btn btn-primary">
+            <p className="card-text">
+              {quantity === 0 ? "Out of stock" : "Quantity : " + quantity}
+            </p>
+
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                addToCart(item);
+              }}
+            >
               Add to cart
-            </a>
+            </button>
           </div>
         </div>
       </div>

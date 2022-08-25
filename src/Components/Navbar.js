@@ -1,10 +1,16 @@
 import React from "react";
+// import { useStateValue } from "../StateProvider";
+import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ cart }) => {
+  // const [{ basket }, dispatch] = useStateValue();
+
+  const ids = cart.map((o) => o.id);
+  const filtered = cart.filter(({ id }, index) => !ids.includes(id, index + 1));
   return (
     <nav className="navbar navbar-expand-lg bg-light">
       <div className="container-fluid">
-        <a className="navbar-brand" to="/">
+        <a className="navbar-brand" href="/">
           TeeRex Store
         </a>
         <button
@@ -21,14 +27,14 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" to="/">
+              <Link className="nav-link active" aria-current="page" to="/">
                 Home
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" to="#">
+              <Link className="nav-link" aria-current="page" to="/cart">
                 Link
-              </a>
+              </Link>
             </li>
           </ul>
           <form className="d-flex" role="search">
@@ -39,9 +45,12 @@ const Navbar = () => {
               placeholder="Search"
               aria-label="Search"
             />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
+
+            <Link to="/cart">
+              <button className="btn btn-outline-success" type="submit">
+                <ion-icon name="cart-outline"></ion-icon> {filtered?.length}
+              </button>
+            </Link>
           </form>
         </div>
       </div>
