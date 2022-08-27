@@ -4,6 +4,7 @@ import React from "react";
 const Shopitem = ({ item, addToCart }) => {
   // let { title, imageUrl, price } = props;
   const { name, imageURL, price, quantity } = item;
+  item.q = 1;
 
   // const [{ basket }, dispatch] = useStateValue();
 
@@ -41,7 +42,7 @@ const Shopitem = ({ item, addToCart }) => {
             <button
               className="btn btn-primary"
               onClick={() => {
-                addToCart(item);
+                addToCart(item, item.q);
               }}
             >
               Add to cart

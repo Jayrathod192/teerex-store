@@ -15,13 +15,19 @@ function App() {
   const [cart, setCart] = useState([]);
 
   const addToCart = (item) => {
+    // console.log(cart);
     if (cart.indexOf(item) !== -1) return;
+    const ids = cart.map((o) => o.id);
+
     if (item.quantity > 0) {
-      setCart((prevstate) => [...prevstate, item]);
+      if (!ids.includes(item.id)) {
+        setCart((prevstate) => [...prevstate, item]);
+      } else {
+        alert("alreay in the cart");
+      }
     } else {
       alert("Out of stock");
     }
-    // console.log(cart);
   };
 
   return (

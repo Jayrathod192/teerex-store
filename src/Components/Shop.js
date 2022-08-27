@@ -18,27 +18,64 @@ const Shop = ({ addToCart }) => {
   }, []);
 
   const [search, setSearch] = useState("");
-  const [checked, setChecked] = useState([]);
+  const [filter, setChecked] = useState("none");
 
   const onChange = (e) => {
     setSearch(e.target.value);
   };
 
+  // const handleCheck = (e) => {
+  //   setChecked([...checked, e.target.value]);
+  //   console.log(checked);
+  // };
   const handleCheck = (e) => {
-    setChecked([...checked, e.target.value]);
-    console.log(checked);
+    // setChecked([...checked, e.target.value]);
+    // console.log(checked);
+    if (filter === e.target.value) setChecked({ filter: "none" });
+    else setChecked({ filter: e.target.value, checked: true });
+    console.log(filter);
   };
+
+  const searchList = products.filter((item) => {
+    if (item.color.toLowerCase() === search.toLowerCase()) return item;
+  });
+
+  if (searchList) {
+    // setProduct(searchList);
+  }
+
+  const checkBox = products.filter((item) => {
+    if (
+      item.color === filter["filter"] ||
+      item.gender === filter["filter"] ||
+      filter === "none"
+    )
+      return item;
+  });
+
+  // console.log(searchLIst);
+
+  console.log(checkBox);
 
   return (
     <div className="container my-3">
       <h1>Shop</h1>
-      <input
+      {/* <input
         type="text"
         id="search"
         name="search"
         // value={search}
         onChange={onChange}
         placeholder="search"
+      /> */}
+      <input
+        className="form-control m-3"
+        type="search"
+        id="search"
+        name="search"
+        placeholder="Search"
+        onChange={onChange}
+        aria-label="Search"
       />
       {/* <button id="btn btn-primary">Search</button> */}
 
@@ -89,75 +126,69 @@ const Shop = ({ addToCart }) => {
           </div>
 
           <div>
-            <h4 className="text-start">Colour</h4>
+            <h4 className="text-start">Gender</h4>
             <div className="form-check d-flex">
               <input
                 className="form-check-input mx-2"
                 type="checkbox"
-                value=""
+                value="Men"
+                onChange={handleCheck}
                 id="flexCheckDefault"
               />
               <label className="form-check-label" htmlFor="flexCheckDefault">
-                Red
+                Men
               </label>
             </div>
             <div className="form-check d-flex">
               <input
                 className="form-check-input mx-2"
                 type="checkbox"
-                value=""
+                value="Women"
+                onChange={handleCheck}
                 id="flexCheckChecked"
               />
               <label className="form-check-label" htmlFor="flexCheckChecked">
-                Blue
-              </label>
-            </div>
-            <div className="form-check d-flex">
-              <input
-                className="form-check-input mx-2"
-                type="checkbox"
-                value=""
-                id="flexCheckChecked"
-              />
-              <label className="form-check-label" htmlFor="flexCheckChecked">
-                Black
+                Women
               </label>
             </div>
           </div>
 
           <div>
-            <h4 className="text-start">Colour</h4>
+            <h4 className="text-start">Price</h4>
             <div className="form-check d-flex">
               <input
                 className="form-check-input mx-2"
                 type="checkbox"
-                value=""
+                value="250"
+                onChange={handleCheck}
                 id="flexCheckDefault"
               />
               <label className="form-check-label" htmlFor="flexCheckDefault">
-                Red
+                250
               </label>
             </div>
             <div className="form-check d-flex">
               <input
                 className="form-check-input mx-2"
                 type="checkbox"
-                value=""
+                value="350"
+                onChange={handleCheck}
                 id="flexCheckChecked"
               />
               <label className="form-check-label" htmlFor="flexCheckChecked">
-                Blue
+                350
               </label>
             </div>
             <div className="form-check d-flex">
               <input
                 className="form-check-input mx-2"
                 type="checkbox"
-                value=""
+                value="450"
+                onChange={handleCheck}
                 id="flexCheckChecked"
               />
               <label className="form-check-label" htmlFor="flexCheckChecked">
-                Black
+                450
               </label>
             </div>
           </div>
@@ -166,46 +197,18 @@ const Shop = ({ addToCart }) => {
         <div className="col-md-9">
           <div className="row">
             <h1>Items</h1>
-            {products
-              .filter((product) => {
-                let content = product.name + " " + product.gender;
-                let content1 = product.gender + " " + product.name;
-                let content2 =
-                  product.type + " " + product.gender + " " + product.color;
-                let content3 =
-                  product.type + " " + product.color + " " + product.gender;
-                let content4 =
-                  product.gender + " " + product.type + " " + product.color;
-                let content5 =
-                  product.color + " " + product.gender + " " + product.type;
-                // let [a, b, c] = [checked];
-                // console.log(content.toLowerCase());
-                if (search === "") {
-                  return product;
-                } else if (
-                  content.toLowerCase().includes(search.toLowerCase()) ||
-                  content1.toLowerCase().includes(search.toLowerCase()) ||
-                  content2.toLowerCase().includes(search.toLowerCase()) ||
-                  content3.toLowerCase().includes(search.toLowerCase()) ||
-                  content4.toLowerCase().includes(search.toLowerCase()) ||
-                  content5.toLowerCase().includes(search.toLowerCase())
-                ) {
-                  // console.log(search);
-                  return product;
-                }
-              })
-              .map((product) => {
-                // console.log(val);
-                return (
-                  <div className="col-md-4" key={product.id}>
-                    <Shopitem
-                      id={product.id}
-                      item={product}
-                      addToCart={addToCart}
-                    />
-                  </div>
-                );
-              })}
+            {products.map((product) => {
+              // console.log(val);
+              return (
+                <div className="col-md-4" key={product.id}>
+                  <Shopitem
+                    id={product.id}
+                    item={product}
+                    addToCart={addToCart}
+                  />
+                </div>
+              );
+            })}
 
             {/* {products
               .filter((product) => {

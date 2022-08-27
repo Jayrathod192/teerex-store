@@ -13,16 +13,19 @@ const Cart = ({ id, imageUrl, title, price, cart, setCart }) => {
   };
   const [total, setPrice] = useState(0);
 
+  // const ids = cart.map((o) => o.id);
+  // const filtered = cart.filter(({ id }, index) => !ids.includes(id, index + 1));
+
+  // console.log(filtered);
   const handlePrice = () => {
     let ans = 0;
-    cart.map((item) => (ans += item.amount * item.price));
+    cart.map((item) => (ans += item.q * item.price));
     setPrice(ans);
   };
 
-  const ids = cart.map((o) => o.id);
-  const filtered = cart.filter(({ id }, index) => !ids.includes(id, index + 1));
-
-  // console.log(filtered);
+  const totalQuantity = cart.map((item) => {
+    return item.q;
+  });
 
   useEffect(() => {
     handlePrice();
@@ -31,17 +34,18 @@ const Cart = ({ id, imageUrl, title, price, cart, setCart }) => {
     <div>
       <h1>cart</h1>
       <p>
-        Subtotal ({filtered.length} items):{" "}
-        <strong> $ {getBasketTotal(filtered)}</strong>
+        Subtotal ({totalQuantity.reduce((a, b) => a + b, 0)} items):{" "}
+        <strong> $ {total}</strong>
       </p>
 
       <div className="cart-items">
-        {filtered.map((item) => (
+        {cart.map((item) => (
           <div key={item.id}>
             <CheckoutProduct
               item={item}
-              cart={filtered}
+              cart={cart}
               remove={handleRemove}
+              handlePrice={handlePrice}
             />
           </div>
         ))}

@@ -5,14 +5,15 @@ import { Link } from "react-router-dom";
 const Navbar = ({ cart }) => {
   // const [{ basket }, dispatch] = useStateValue();
 
-  const ids = cart.map((o) => o.id);
-  const filtered = cart.filter(({ id }, index) => !ids.includes(id, index + 1));
+  const qs = cart.map((q) => q.q);
+  // console.log(qs);
+
   return (
     <nav className="navbar navbar-expand-lg bg-light">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
+        <Link className="navbar-brand" to="/">
           TeeRex Store
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -48,7 +49,8 @@ const Navbar = ({ cart }) => {
 
             <Link to="/cart">
               <button className="btn btn-outline-success" type="submit">
-                <ion-icon name="cart-outline"></ion-icon> {filtered?.length}
+                <ion-icon name="cart-outline"></ion-icon>{" "}
+                {qs.reduce((a, b) => a + b, 0)}
               </button>
             </Link>
           </form>

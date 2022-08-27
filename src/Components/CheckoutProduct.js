@@ -4,7 +4,7 @@ import "../CheckoutProduct.css";
 // import reducer from "../reducer";
 // import { useStateValue } from "../StateProvider";
 
-function CheckoutProduct({ item, hideButton, remove }) {
+function CheckoutProduct({ item, hideButton, remove, handlePrice }) {
   const { id, imageURL, name, price, quantity } = item;
   // const [{ basket }, dispatch] = useStateValue();
   let [qty, setqty] = useState(1);
@@ -26,15 +26,19 @@ function CheckoutProduct({ item, hideButton, remove }) {
   const incQty = () => {
     console.log("increment");
     // console.log(qty);
-    if (qty < quantity) {
-      setqty((qty = qty + 1));
+    if (item.q < quantity) {
+      setqty((item.q = item.q + 1));
+      handlePrice();
+    } else {
+      alert("max quantity");
     }
   };
 
   const decQty = () => {
     console.log("decrement");
-    if (qty > 1) {
-      setqty((qty = qty - 1));
+    if (item.q > 1) {
+      setqty((item.q = item.q - 1));
+      handlePrice();
     } else {
       remove(id);
     }
@@ -61,7 +65,7 @@ function CheckoutProduct({ item, hideButton, remove }) {
         <button className="btn-icon" onClick={incQty}>
           +
         </button>
-        <p style={{ display: "inline-block" }}>{qty}</p>
+        <p style={{ display: "inline-block" }}>{item.q}</p>
         <button className="btn-icon" onClick={decQty}>
           -
         </button>
